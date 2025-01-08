@@ -6,6 +6,8 @@ const express = require('express')
 const app = express();
 const port = 3001;
 
+app.use(express.json());
+
 
 const postsRouter = require('./routers/posts');
 const { log } = require('console');

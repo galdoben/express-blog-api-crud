@@ -15,7 +15,15 @@ const show = (req,res) => {
 }
 
 const store = (req,res) => {
-    res.send('Aggiungo un nuono piatto')
+    const id = posts.at(-1).id +1;
+    const newPost = {
+        id,
+        ...req.body
+    }
+    console.log(id);
+    posts.push(newPost);
+    res.status(201).json(newPost);
+    //res.send('Aggiungo un nuono piatto')
 }
 
 const update = (req,res) => {
@@ -27,9 +35,14 @@ const modify = (req,res) => {
 }
 
 const destroy = (req,res) => {
-    res.send('Elimino un piatto in base al suo id' + req.params.id)
-    return
-    res.json
+    //res.send('Elimino un piatto in base al suo id' + req.params.id)
+    const id = parseInt(req.params.id)
+    const deletePost = posts.find(post => id == post.id)
+    posts.splice(posts.indexOf(deletePost),1);
+    res.status(200)
+    console.log(posts);
+    
+    return res.json(posts)
 }
 
 module.exports = {
