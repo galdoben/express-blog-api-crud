@@ -1,5 +1,7 @@
 const posts = require('./data/posts')
-console.log(posts);
+const postsRouter = require('./routers/posts');
+const notFound = require('./middleware/notFound');
+const errorHandler = require('./middleware/errorHandler');
 
 const express = require('express')
 
@@ -9,10 +11,13 @@ const port = 3001;
 app.use(express.json());
 
 
-const postsRouter = require('./routers/posts');
-const { log } = require('console');
 
-app.use('/posts', postsRouter)
+
+
+app.use('/posts', postsRouter);
+app.use(errorHandler);
+app.use(notFound);
+
 
 
 app.listen(port, ()=>{

@@ -2,6 +2,7 @@
 const posts = require('../data/posts')
 //2 MILESTONE
 const index = (req,res) => {
+     ciao()
     //res.send('Visualizzo tutti i piatti tipici')
     return res.json(posts)
 }
@@ -9,7 +10,7 @@ const index = (req,res) => {
 const show = (req,res) => {
     //res.send('Visualizzo un piatto in base al suo id' + req.params.id)
     const id = parseInt(req.params.id)
-    const postFound = posts.find(post => post.id == id) 
+    const postFound = posts.find(post => post.id === id) 
     return res.json(postFound)
 
 }
@@ -20,14 +21,35 @@ const store = (req,res) => {
         id,
         ...req.body
     }
-    console.log(id);
+    
     posts.push(newPost);
+    console.log(posts);
     res.status(201).json(newPost);
+
     //res.send('Aggiungo un nuono piatto')
 }
 
 const update = (req,res) => {
-    res.send('Modifico un piatto in base al suo id' + req.params.id)
+    //res.send('Modifico un piatto in base al suo id' + req.params.id)
+    const id = parseInt(req.params.id);
+    const post = posts.find(post => post.id === id);
+
+    if(!post){
+        res.status(404)
+        return res.json({
+            message: "Post non trovato",
+            status: 404,
+            error: "Not Found",
+        })
+    }
+    for (let k in post) {
+        if (k !== id){
+            post[k] = req.body[k]
+        }
+    }
+   
+    
+    res.json(post)
 }
 
 const modify = (req,res) => {
